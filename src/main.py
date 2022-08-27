@@ -37,7 +37,6 @@ def seperate(imagePath, dir, grp):
         if grp:
             print("[INFO] Object found. Saving locally.")
         name = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
-        # file_name = dir + str(w) + str(h) + '_faces.jpg'
         file_name = dir + name + '_face.jpg'
         cv2.imwrite(file_name, roi_color)
     
@@ -50,21 +49,12 @@ def seperate(imagePath, dir, grp):
 def saved(date):
     time.sleep(3)
     tkinter.messagebox.showinfo("Alert", f"Saved attenedence pdf successfully!\nas: result_{date}.pdf")
-    # top= Toplevel(tab2)
-    # top.geometry("450x250")
-    # top.title("Saved!")
-    # Label(top, text= f"Saved attenedence pdf successfully!\nas: result_{date}.pdf").pack(fill='both', pady=30)
-    # customtkinter.CTkButton(top, text="Exit", command=top.destroy).pack(pady=0)
 
 def core(work):
     if work == "fill_db":
         file_paths = filedialog.askopenfilenames(initialdir="/Users/xy0ke/Downloads/", filetypes=[("Image files", ".jpg .png .jpeg")])
-        # print(file_paths)
 
         for path in file_paths:
-            # db_picture = Image.open(path)
-            # name = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
-            # db_picture = db_picture.save(f"worker_db/{name}.jpg")
             seperate(path, dir="worker_db/", grp=False)
 
         tkinter.messagebox.showinfo("Alert", "Photo saved successfully to Database!")
@@ -85,16 +75,7 @@ def core(work):
         B3.pack(pady=0)
 
     elif work == "check_atendence":
-        # group = Image.open("faces_detected.jpg")
-        # resize_group = group.resize((400, 280))
-        # grp = ImageTk.PhotoImage(resize_group)
-
-        # grp_vw.pack_forget()
         B3.pack_forget()
-        
-        # p = Label(tab2, image=grp)
-        # p.photo = grp
-        # p.pack(padx=320, pady=50)
         print("[INFO] Checking for attendence...")
 
         pdf = FPDF()
@@ -115,12 +96,9 @@ def core(work):
                     worker_photo = worker_photos + worker
                     print(worker_photo)
                     print(member_photo)
-
-                    # new_worker_dir = 'mgnrega_worker_photos/'
                 
                     picture_of_member = face_recognition.load_image_file(member_photo)
                     member_face_encoding = face_recognition.face_encodings(picture_of_member)[0]
-                    # w = seperate(worker_photo, dir=new_worker_dir, grp=False)
                     picture_of_worker = face_recognition.load_image_file(worker_photo)
                     worker_face_encoding = face_recognition.face_encodings(picture_of_worker)[0]
 
@@ -134,9 +112,6 @@ def core(work):
                         list_absent.append(member_photo)
                         
 
-        # print(list_present_1)
-        # print(list_present_2)
-        # print(list_absent)
         for i in list_present_1:
             for j in list_absent:
                 if i == j:
@@ -170,13 +145,6 @@ def core(work):
             res_img = f"res{c}_img.jpeg"
 
             pdf.image(res_img)
-
-            # rimg = Image.open(res_img)
-            # rsize = rimg.resize((550, 70))
-            # rimg = ImageTk.PhotoImage(rsize)
-            # r = Label(tab2, image=rimg)
-            # r.photo = rimg
-            # r.pack(pady=0)
             c += 1
         
         for k in list_absent:
@@ -194,18 +162,8 @@ def core(work):
             res_img = f"res{c}_img.jpeg"
 
             pdf.image(res_img)
-
-            # rimg = Image.open(res_img)
-            # rsize = rimg.resize((550, 64))
-            # rimg = ImageTk.PhotoImage(rsize)
-            # r = Label(tab2, image=rimg)
-            # r.photo = rimg
-            # r.pack(pady=0)
             c += 1
         
-        
-        # scroll = Scrollbar(tab2, command=r.yview)
-        # scroll.pack(side = RIGHT, fill = Y)
 
         
         date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
@@ -230,21 +188,9 @@ def core(work):
 
 
 if __name__ == '__main__':
-    # try:
-    #     os.remove("group_photo/.DS_Store")
-    # except FileNotFoundError:
-    #     pass
-
-    # try:
-    #     os.remove("worker_db/.DS_Store")
-    # except FileNotFoundError:
-    #     pass
 
     root = Tk()
     root.title("Smart India Hackathon")
-
-    # customtkinter.set_appearance_mode("System")
-    # customtkinter.set_default_color_theme("blue")
 
     root.geometry("1100x650")
 
@@ -271,12 +217,10 @@ if __name__ == '__main__':
 
 
     B1 = Button(tab1, image=img, command=lambda: core(work="fill_db"))
-    # B1 = ImageTk.PhotoImage(Image.open(PATH + "/test_images/add-folder.png").resize((image_size, image_size), Image.ANTIALIAS))
     B1.pack(padx=281.5, pady=30)
 
     L1 = Label(tab1, text = "Add photos to save in the database of images\n")
     L1.pack(pady=0)
-    # B2 = customtkinter.CTkButton(tab1, text="Save").pack(pady=0)
 
     B2 = Button(tab2, image=img, command=lambda: core(work="upload_grp"))
     B2.photo = img
